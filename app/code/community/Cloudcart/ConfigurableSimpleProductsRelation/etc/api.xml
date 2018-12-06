@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <api>
+        <resources>
+            <configurablesimpleproductsrelation_api translate="title" module="configurablesimpleproductsrelation">
+                <title>Myapi</title>
+                <acl>configurablesimpleproductsrelation/api</acl>
+                <model>configurablesimpleproductsrelation/api</model>
+                <methods>
+                    <getconfigurablesimpleproductassociationids translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Configurable Simple Product Association Ids</title>
+                        <acl>configurablesimpleproductsrelation/getconfigurablesimpleproductassociationids</acl>
+                    </getconfigurablesimpleproductassociationids>
+                    <getsimpleproductsbyconfigurableproductid translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Simple Products By Configurable Product Id</title>
+                        <acl>configurablesimpleproductsrelation/getsimpleproductsbyconfigurableproductid</acl>
+                    </getsimpleproductsbyconfigurableproductid>
+                    <getunassociatedsimpleproductids translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Unassociated Simple Product Ids</title>
+                        <acl>configurablesimpleproductsrelation/getunassociatedsimpleproductids</acl>
+                    </getunassociatedsimpleproductids>
+                    <getconfigurableproductids translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Configurable Product Ids</title>
+                        <acl>configurablesimpleproductsrelation/getconfigurableproductids</acl>
+                    </getconfigurableproductids>
+                </methods>
+            </configurablesimpleproductsrelation_api>
+        </resources>
+        <acl>
+            <resources>
+                <configurablesimpleproductsrelation translate="title" module="configurablesimpleproductsrelation">
+                    <title>SimpleConfigRelation</title>
+                    <sort_order>2000</sort_order>
+                    <getconfigurablesimpleproductassociationids translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Configurable Simple Product Association Ids</title>
+                    </getconfigurablesimpleproductassociationids>
+                    <getsimpleproductsbyconfigurableproductid translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Simple Products By Configurable Product Id</title>
+                    </getsimpleproductsbyconfigurableproductid>
+                    <getunassociatedsimpleproductids translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Unassociated Simple Product Ids</title>
+                    </getunassociatedsimpleproductids>
+                    <getconfigurableproductids translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Configurable Product Ids</title>
+                    </getconfigurableproductids>
+                </configurablesimpleproductsrelation>
+            </resources>
+        </acl>
+    </api>
+</config>
