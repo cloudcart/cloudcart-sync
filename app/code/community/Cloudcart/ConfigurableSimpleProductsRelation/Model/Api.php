@@ -1,17 +1,193 @@
 <?php
 /**
- * @package Cloudcart_ConfigurableSimpleProductsRelation
- * @author  Nikola Haralamov <sales@cloudcart.com>
+ * @category Mage
+ * @package  Cloudcart_Import
+ * @author   Nikola Haralamov <n.haralamov@cloudcart.com>
  */
 
 class Cloudcart_ConfigurableSimpleProductsRelation_Model_Api extends Mage_Catalog_Model_Api_Resource
 {
     /**
+     * @var
+     */
+    private $_defaultMagentoAttributes = [
+        'name',
+        'price',
+        'special_price',
+        'sku',
+        'manufacturer',
+        'description',
+        'short_description',
+        'meta_title',
+        'meta_description',
+        'weight',
+        'status',
+        'visibility',
+        'news_from_date',
+        'news_to_date',
+        'special_from_date',
+        'special_to_date',
+    ];
+
+    /**
+     * @var array
+     */
+    private $_defaultMagentoAdditionalAttributes = array(
+        'color',
+        'country_of_manufacture',
+    );
+
+    /**
+     * @var array
+     */
+    private $_skippedDefaultMagentoAttributes = array(
+        'cost',
+        'custom_design',
+        'custom_design_from',
+        'custom_design_to',
+        'custom_layout_update',
+        'gallery',
+        'gift_message_available',
+        'group_price',
+        'image',
+        'is_recurring',
+        'media_gallery',
+        'meta_keyword',
+        'msrp',
+        'msrp_display_actual_price_type',
+        'msrp_enabled',
+        'options_container',
+        'page_layout',
+        'price_view',
+        'recurring_profile',
+        'small_image',
+        'tax_class_id',
+        'thumbnail',
+        'tier_price',
+        'url_key',
+    );
+
+    /**
+     * @param integer $configurableProductId
      * @return array
      */
-    public function getConfigurableSimpleProductAssociationIds()
+    public function getVariantsByConfigurableProductId($configurableProductId)
     {
-        return $this->getAssociatedOfConfigurableProductIds();
+        $configurableProduct = Mage::getModel('catalog/product')->load($configurableProductId);
+        if ($configurableProduct->getTypeId() != Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
+            throw new \Exception('Product type is not configurable.');
+        }
+        $ids = Mage::getModel('catalog/product_type_configurable')->getChildrenIds($configurableProductId);
+
+        $configurableAttributes = array();
+        foreach ($configurableProduct->getTypeInstance(true)->getConfigurableAttributes($configurableProduct) as $attribute) {
+            $configurableAttributes[] = $attribute->getProductAttribute()->getAttributeCode();
+        }
+
+        $data = array();
+        foreach ($ids[0] as $id) {
+            $product = Mage::getModel('catalog/product')->load($id);
+            $attributes = $product->getAttributes();
+            foreach ($attributes as $attribute) {
+                if ($attribute->getIsVisibleOnFront()) {
+                    if (!in_array($attribute->getAttributeCode(), $configurableAttributes)) {
+                        continue;
+                    }
+                    $value = $attribute->getFrontend()->getValue($product);
+
+                    if (!$product->hasData($attribute->getAttributeCode())) {
+                        $value = ''; // Mage::helper('catalog')->__('N/A');
+                    } elseif ((string)$value == '') {
+                        $value = ''; // Mage::helper('catalog')->__('No');
+                    }
+
+                    // elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
+                    //     $value = Mage::app()->getStore()->convertPrice($value, true);
+                    // }
+
+                    if (is_string($value) && strlen($value)) {
+                        $data[$product->getId()]['price'] = $product->getPrice();
+                        $data[$product->getId()]['sku'] = $product->getSku();
+                        $data[$product->getId()]['configurable_product_id'] = $configurableProductId;
+                        $data[$product->getId()]['simple_product_id'] = $product->getId();
+                        $data[$product->getId()]['configurable_attributes'][$attribute->getAttributeCode()] = array(
+                            'label' => $attribute->getStoreLabel(),
+                            'value' => $value,
+                            'code'  => $attribute->getAttributeCode(),
+                        );
+                    }
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * @return [type] [description]
+     */
+    public function properties($id)
+    {
+        $product = Mage::getModel('catalog/product')->load($id);
+        return $product->getData();
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigurableSimpleProductAssociationIds($addConfigurableProductIdAsKey = true)
+    {
+        return $this->getAssociatedOfConfigurableProductIds($addConfigurableProductIdAsKey);
+    }
+
+    /**
+     * @return array
+     */
+    public function getProductsConfigurableAttributeCodes()
+    {
+        $configurableAttributes = array();
+        $configurableProducts = $this->getConfigurableProducts();
+        foreach ($configurableProducts as $product) {
+            foreach ($product->getTypeInstance(true)->getConfigurableAttributes($product) as $attribute) {
+                $configurableAttributes[$product->getId()][] = $attribute->getProductAttribute()->getAttributeCode();
+                $configurableAttributes[$product->getId()]['product_id'] = $product->getId();
+            }
+        }
+        return $configurableAttributes;
+    }
+
+    /**
+     * @param integer $productId
+     * @return array
+     */
+    public function getProductAttributesByProductId($productId)
+    {
+        $data = array();
+        $product = Mage::getModel('catalog/product')->load($productId);
+        $attributes = $product->getAttributes();
+        foreach ($attributes as $attribute) {
+            if ($attribute->getIsVisibleOnFront()) {
+                $value = $attribute->getFrontend()->getValue($product);
+
+                if (!$product->hasData($attribute->getAttributeCode())) {
+                    $value = ''; // Mage::helper('catalog')->__('N/A');
+                } elseif ((string)$value == '') {
+                    $value = ''; // Mage::helper('catalog')->__('No');
+                } elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
+                    $value = Mage::app()->getStore()->convertPrice($value, true);
+                }
+
+                if (is_string($value) && strlen($value)) {
+                    $data[$attribute->getAttributeCode()] = array(
+                        'label' => $attribute->getStoreLabel(),
+                        'value' => $value,
+                        'code'  => $attribute->getAttributeCode(),
+                        'price'  => $product->getPrice(),
+                        'sku'  => $product->getSku(),
+                    );
+                }
+            }
+        }
+        return $data;
     }
 
     /**

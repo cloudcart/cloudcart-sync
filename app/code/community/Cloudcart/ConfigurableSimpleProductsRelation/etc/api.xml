@@ -3,14 +3,26 @@
     <api>
         <resources>
             <configurablesimpleproductsrelation_api translate="title" module="configurablesimpleproductsrelation">
-                <title>Myapi</title>
+                <title>CloudCart Import</title>
                 <acl>configurablesimpleproductsrelation/api</acl>
                 <model>configurablesimpleproductsrelation/api</model>
                 <methods>
+                    <getvariantsbyconfigurableproductid translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Variants by Configurable Product Id</title>
+                        <acl>configurablesimpleproductsrelation/getvariantsbyconfigurableproductid</acl>
+                    </getvariantsbyconfigurableproductid>
                     <getconfigurablesimpleproductassociationids translate="title" module="configurablesimpleproductsrelation">
                         <title>Get Configurable Simple Product Association Ids</title>
                         <acl>configurablesimpleproductsrelation/getconfigurablesimpleproductassociationids</acl>
                     </getconfigurablesimpleproductassociationids>
+                    <getproductsconfigurableattributecodes translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Products Configurable Attribute Codes</title>
+                        <acl>configurablesimpleproductsrelation/getproductsconfigurableattributecodes</acl>
+                    </getproductsconfigurableattributecodes>
+                    <getproductattributesbyproductid translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Product Attributes By Product Id</title>
+                        <acl>configurablesimpleproductsrelation/getproductattributesbyproductid</acl>
+                    </getproductattributesbyproductid>
                     <getsimpleproductsbyconfigurableproductid translate="title" module="configurablesimpleproductsrelation">
                         <title>Get Simple Products By Configurable Product Id</title>
                         <acl>configurablesimpleproductsrelation/getsimpleproductsbyconfigurableproductid</acl>
@@ -31,9 +43,18 @@
                 <configurablesimpleproductsrelation translate="title" module="configurablesimpleproductsrelation">
                     <title>SimpleConfigRelation</title>
                     <sort_order>2000</sort_order>
+                    <getvariantsbyconfigurableproductid translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Variants by Configurable Product Id</title>
+                    </getvariantsbyconfigurableproductid>
                     <getconfigurablesimpleproductassociationids translate="title" module="configurablesimpleproductsrelation">
                         <title>Get Configurable Simple Product Association Ids</title>
                     </getconfigurablesimpleproductassociationids>
+                    <getproductsconfigurableattributecodes translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Products Configurable Attribute Codes</title>
+                    </getproductsconfigurableattributecodes>
+                    <getproductattributesbyproductid translate="title" module="configurablesimpleproductsrelation">
+                        <title>Get Product Attributes By Product Id</title>
+                    </getproductattributesbyproductid>
                     <getsimpleproductsbyconfigurableproductid translate="title" module="configurablesimpleproductsrelation">
                         <title>Get Simple Products By Configurable Product Id</title>
                     </getsimpleproductsbyconfigurableproductid>
