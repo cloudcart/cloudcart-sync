@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <CloudCart_Sync>
+            <version>0.1.0</version>
+        </CloudCart_Sync>
+    </modules>
+    <global>
+        <helpers>
+            <cloudcartsync>
+                <class>CloudCart_Sync_Helper</class>
+            </cloudcartsync>
+        </helpers>
+        <models>
+            <cloudcartsync>
+                <class>CloudCart_Sync_Model</class>
+                <resourceModel>cloudcartsync_mysql4</resourceModel>
+            </cloudcartsync>
+        </models>
+        <resources>
+            <cloudcartsync_setup>
+                <setup>
+                    <module>CloudCart_Sync</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </cloudcartsync_setup>
+        </resources>
+    </global>
+</config>

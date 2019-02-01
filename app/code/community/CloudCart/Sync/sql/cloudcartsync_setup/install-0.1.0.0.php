@@ -1,7 +1,7 @@
 <?php
 /**
  * @category Mage
- * @package  Cloudcart_Import
+ * @package  CloudCart_Sync
  * @author   Nikola Haralamov <n.haralamov@cloudcart.com>
  */
 
@@ -190,19 +190,6 @@ COMMIT;
 
 SQL;
 
-/**
- * summary
- */
-class Name extends ExtendsName
-{
-    /**
-     * summary
-     */
-    public function __construct()
-    {
-
-    }
-}
 
 /**
  * SOAP/XML-RPC

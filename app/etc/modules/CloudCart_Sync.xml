@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <modules>
-        <Cloudcart_ConfigurableSimpleProductsRelation>
+        <CloudCart_Sync>
             <active>true</active>
             <codePool>community</codePool>
             <depends>
                 <Mage_Api />
             </depends>
             <version>0.1.0</version>
-        </Cloudcart_ConfigurableSimpleProductsRelation>
+        </CloudCart_Sync>
     </modules>
 </config>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <api>
+        <resources>
+            <cloudcartsync_api translate="title" module="cloudcartsync">
+                <title>CloudCart Sync</title>
+                <acl>cloudcartsync/api</acl>
+                <model>cloudcartsync/api</model>
+                <methods>
+                    <variations translate="title" module="cloudcartsync">
+                        <title>Get configurable product variations</title>
+                        <acl>cloudcartsync/variations</acl>
+                    </variations>
+                </methods>
+            </cloudcartsync_api>
+        </resources>
+        <acl>
+            <resources>
+                <cloudcartsync translate="title" module="cloudcartsync">
+                    <title>CloudCart Sync</title>
+                    <sort_order>2000</sort_order>
+                    <variations translate="title" module="cloudcartsync">
+                        <title>Get configurable product variations</title>
+                    </variations>
+                </cloudcartsync>
+            </resources>
+        </acl>
+    </api>
+</config>
