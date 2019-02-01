@@ -16,11 +16,21 @@ $email = 'support@cloudcart.com';
 $first_name = 'Cloud';
 $last_name = 'Cart';
 
-$table_api_role = $this->getTable('api_role');
-$table_api_rule = $this->getTable('api_rule');
-$table_api_user = $this->getTable('api_user');
+$table_api_role = $this->getTable('api/role');
+$table_api_rule = $this->getTable('api/rule');
+$table_api_user = $this->getTable('api/user');
 
-$sql = <<<SQL
+/**
+ * SOAP/XML-RPC
+ *  1) Create API_USER with API_KEY
+ *  2) Create API_ROLE with ALL_RESOURCE_ACCESS
+ *  3) Assign API_ROLE to API_USER
+ *
+ * @var Mage_Core_Model_Resource_Setup $this
+ * @see Mage/Core/Model/Resource/Setup
+ */
+$this->startSetup();
+$this->run("
 
 SET FOREIGN_KEY_CHECKS = 0;
 SET AUTOCOMMIT = 0;
@@ -28,9 +38,10 @@ START TRANSACTION;
 
 -- TRUNCATE TABLE `{$table_api_role}`;
 INSERT INTO `{$table_api_role}` (`parent_id`, `tree_level`, `sort_order`, `role_type`, `user_id`, `role_name`)
-SET @role_id = LAST_INSERT_ID();
 VALUES
-(0, 1, 0, 'G', 0, '{$username}');
+(0, 1, 0, 'G', 0, '{$api_user}');
+
+SELECT LAST_INSERT_ID() INTO @role_id;
 
 -- TRUNCATE TABLE `{$table_api_rule}`;
 INSERT INTO `{$table_api_rule}` (`role_id`, `resource_id`, `api_privileges`, `assert_id`, `role_type`, `api_permission`)
@@ -188,18 +199,6 @@ VALUES
 SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;
 
-SQL;
+");
 
-
-/**
- * SOAP/XML-RPC
- *  1) Create API_USER with API_KEY
- *  2) Create API_ROLE with ALL_RESOURCE_ACCESS
- *  3) Assign API_ROLE to API_USER
- *
- * @var Mage_Core_Model_Resource_Setup $this
- * @see Mage/Core/Model/Resource/Setup
- */
-$this->startSetup();
-$this->run("{$sql}");
 $this->endSetup();
